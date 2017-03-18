@@ -1,4 +1,4 @@
-struct Book_Database{
+class Book_Database{
 
 
 

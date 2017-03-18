@@ -1,11 +1,4 @@
-struct User_Database{
-
-
-
-
-
-
-
+class User_Database{
 
 
 };
