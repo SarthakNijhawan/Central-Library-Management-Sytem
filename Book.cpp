@@ -1,10 +1,21 @@
 #include"Book.h"
 
+
+enum Status {1, 0, -1}; // 1 -> Available, 0-> Issued, -1-> Claimed
+
+class Book_id{
+public:
+	unsigned long int id = 0;
+	unsigned int number = 0;
+}
+
 class Book{
+
 	String title;
 	String author;
 	String publisher;
-	long unsigned int book_id;
+	Book_Id book_id;
+	Status state = 1;
 
 public:
 	/**
@@ -14,7 +25,8 @@ public:
 		this->title = "";
 		this->author = "";
 		this->publisher = "";
-		this->book_id = 0;
+		this->book_id.id = 0;
+		this->book_id.add_book();
 	}
 
 	/**
@@ -90,4 +102,16 @@ public:
 	void setBookID(long unsigned int book_id) {
 		this->book_id = book_id;
 	}
+
+	void update_book_num(int i=1){ // i=1 when a book is added while i=-1 when the book is to be deleted
+		this->book_id.number+=i;
+		this->state=1;
+	}
+
+	void update_new_book_id(long unsigned int id){ // Only for newly initialised books
+		this->book_id.id=id;
+		this->book_id.number++;
+		this->state=1 ; //Now available
+	}
+
 };
