@@ -64,8 +64,8 @@ public:
 	/**
 	 * Returns the name of the publisher of the book
 	 */
-	String getPublusher() {
-		return author;
+	String getPublisher() {
+		return publisher;
 	}
 
 	/**
