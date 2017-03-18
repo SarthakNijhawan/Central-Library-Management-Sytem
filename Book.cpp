@@ -3,6 +3,7 @@
 class Book{
 	String title;
 	String author;
+	String publisher;
 	long unsigned int book_id;
 
 public:
@@ -12,6 +13,7 @@ public:
 	Book() {
 		this->title = "";
 		this->author = "";
+		this->publisher = "";
 		this->book_id = 0;
 	}
 
@@ -19,11 +21,13 @@ public:
 	 * Parameterized constructor
 	 * @param title The title of the book
 	 * @param author The name of the author of the book
+	 * @param publisher The name of the publisher of the book
 	 * @param book_id The unique ID given to each book in the library
 	 */
-	Book(String title, String author, int book_id) {
+	Book(String title, String author, String publisher, int book_id) {
 		this->title = title;
 		this->author = author;
+		this->publisher = publisher;
 		this->book_id = book_id;
 	}
 
@@ -39,36 +43,51 @@ public:
 	 * @param title The new title that is to be set
 	 */
 	void setTitle(String title) {
-		this.title = title;
+		this->title = title;
 	}
 
 	/**
-	 * Returns the author of the book
+	 * Returns the name of the author of the book
 	 */
 	String getAuthor() {
 		return author;
 	}
 
 	/**
-	 * Changes the author of the book
-	 * @param title The new author name that is to be set
+	 * Changes the name of the author of the book
+	 * @param author The new author name that is to be set
 	 */
 	void setAuthor(String author) {
-		this.author = author;
+		this->author = author;
+	}
+
+	/**
+	 * Returns the name of the publisher of the book
+	 */
+	String getPublusher() {
+		return author;
+	}
+
+	/**
+	 * Changes the name of the publisher of the book
+	 * @param publisher The new publisher name that is to be set
+	 */
+	void setPublisher(String publisher) {
+		this->publisher = publisher;
 	}
 
 	/**
 	 * Returns the ID of the book
 	 */
-	long unsigned int getBook_id() {
+	long unsigned int getBookID() {
 		return book_id;
 	}
 
 	/**
 	 * Changes the ID of the book
-	 * @param title The new ID that is to be set
+	 * @param book_id The new ID that is to be set
 	 */
-	void setBook_id(int book_id) {
-		this.book_id = book_id;
+	void setBookID(long unsigned int book_id) {
+		this->book_id = book_id;
 	}
 };
