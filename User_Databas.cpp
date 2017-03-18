@@ -2,9 +2,10 @@
 #include"User.h"
 
 class User_Database{
+  private:
+    
 
-
-
+  public:
 
 
 };
