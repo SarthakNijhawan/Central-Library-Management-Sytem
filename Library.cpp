@@ -1,8 +1,6 @@
 #include"Library.h"
 #include"User_Database.h"
 #include"Book_Database.h"
-#include"Issue.h"
-#include"Return.h"
 
 class Library{
   private:

@@ -6,7 +6,8 @@ class Book{
   long int book_id;
 
 public:
-  Book* new_book(); //allocates memory to new book
+  void add_book(); //allocates memory to new book
+  void delete_book();
   
 
 };
