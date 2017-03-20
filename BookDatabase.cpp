@@ -13,9 +13,9 @@ private:
   long unsigned int last_id = 1;
 
 public:
-  BookDatabase();
-  ~BookDatabase();
-  bool load_database(); //loads the database into a vector
+
+  bool load_database(string filename); //loads the database into a vector
+  bool update_database(string filename);
   bool search_book_by_author(String author);
   bool search_book_by_book_id(Book_Id book_id);
   bool search_book_by_title(String title);
@@ -25,40 +25,59 @@ public:
 
 };
 
-//Default constructor (loads the data into a map)
-BookDatabase::BookDatabase(){
-  //load the database into the vector
-  if(load_database())
-  {
-    cout<<"Data Loaded Successfully"<<endl;
-    this->last_id = this->book_database_vector.size();
-
-  }else cerr<<"Error loading the file";
-
-}
-
-
-// Destructor (Update the database with all the changes performed on the container)
-BookDatabase::~BookDatabase(){
-
-
-}
 
 // Loads whole of the data into a vector
-bool BookDatabase::load_database(){
-  ifstream book_database_file;
-  book_database_file.open("books.txt");
+bool BookDatabase::load_database(string filename){
 
-  std::string line;
-  while (std::getline(infile, line))
+  ifstream  my_data_file;
+  string line;
+  my_data_file.open(filename);
+  int total_books=0;
+
+  while(std::getline(my_data_file,line))
   {
-      std::istringstream iss(line);
-      int a, b;
-      if (!(iss >> a >> b)) { break; } // error
+      total_books++;
+      Book new_book;
+      std::stringstream  lineStream(line);
+      std::string        cell;
 
-      // process pair (a,b)
+      //each cell is an attribute of the data object
+
+      while(std::getline(lineStream, cell, ','))
+      {
+        
+
+      }
 
   }
+
+  my_data_file.close();
+
+  }
+
+bool BookDatabase::update_database(string filename){
+  ofstream my_data_file;
+  my_data_file.open(filename);
+  map::iterator it;
+
+  for(it = database_map.begin(); it!=database_map.end(); it++ ){
+
+    string line;                                                            // book_id, title, author, publisher (Claim status)
+    line.append(string(it->book_id.id));
+    line.append(",");
+    line.append(string(it->book_id.number));
+    line.append(",");
+    line.append(it->title);
+    line.append(",");
+    line.append(it->author);
+    line.append(",");
+    line.append(it->publisher);
+    line.append("\n");
+    my_data_file << line;
+
+  }
+  my_data_file.close();
+}
 
 bool BookDatabase::add_book(Book book_obj){
   //search for the book

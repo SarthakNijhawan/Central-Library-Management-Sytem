@@ -5,6 +5,10 @@ enum Status {1, 0, -1}; // 1 -> Available, 0-> Issued, -1-> Claimed
 
 class Book_id{
 public:
+	Book_id(unsigned long int id, unsigned int number){
+		this->id=id;
+		this->number=number;
+	}
 	unsigned long int id = 0;
 	unsigned int number = 0;
 }
@@ -15,7 +19,7 @@ class Book{
 	String author;
 	String publisher;
 	Book_Id book_id;
-	Status state = 1;
+	Status state ;
 
 public:
 	/**
@@ -27,6 +31,7 @@ public:
 		this->publisher = "";
 		this->book_id.id = 0;
 		this->book_id.add_book();
+		this->state=1;
 	}
 
 	/**
@@ -41,6 +46,7 @@ public:
 		this->author = author;
 		this->publisher = publisher;
 		this->book_id = book_id;
+		this->state=1;
 	}
 
 	/**

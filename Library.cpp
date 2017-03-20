@@ -34,16 +34,10 @@ class Library{
     void display_user_info();
     void delete_user();
 
-    //Database loading and writing realted problem
-    template<class T>
-    bool load_database(T t_database, string filename);
-    template<class T>
-    bool update_database(T t_database, string filename);
-
 };
 
   Library::Library(string book_database_file, string user_database_file){
-    if(load_database(book_database, book_database_file) && load_database(user_database, user_database_file)){
+    if(book_database.load_database(book_database_file) && user_database.load_database(user_database_file)){
       cout<<"Successfully loaded both the databases !!";
     }
     else {
@@ -60,15 +54,4 @@ class Library{
       cerr<<"Error writing into the databases !!!";
     }
 
-  }
-
-  //Reads the databases
-  bool Library::load_database(T t_database, String filename){
-
-  }
-
-
-  //Updates the databases with the containers
-  bool Library::update_database(T t_database, String filename){
-    
   }
