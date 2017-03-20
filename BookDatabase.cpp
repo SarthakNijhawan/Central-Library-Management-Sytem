@@ -1,17 +1,20 @@
-#include"Book_Database.h"
+#include"BookDatabase.h"
 #include"Book.h"
 #include<fstream>
-#include<hash_map>
+#include<map>
+#include<unordered_map>
 #include<sstream>
 #include<string>
+#include<vector>
 
-class Book_Database{
+class BookDatabase{
 private:
-  std::vector<Book> book_database_vector;
+  std::map<int, Book> database_map;
   long unsigned int last_id = 1;
 
 public:
-  Book_Database();
+  BookDatabase();
+  ~BookDatabase();
   bool load_database(); //loads the database into a vector
   bool search_book_by_author(String author);
   bool search_book_by_book_id(Book_Id book_id);
@@ -20,12 +23,10 @@ public:
   bool add_book(Book book_obj);
   bool delete_book(Book book_obj);
 
-
-
 };
 
-//Default constructor
-Book_Database::Book_Database(){
+//Default constructor (loads the data into a map)
+BookDatabase::BookDatabase(){
   //load the database into the vector
   if(load_database())
   {
@@ -36,8 +37,15 @@ Book_Database::Book_Database(){
 
 }
 
+
+// Destructor (Update the database with all the changes performed on the container)
+BookDatabase::~BookDatabase(){
+
+
+}
+
 // Loads whole of the data into a vector
-bool Book_Database::load_database(){
+bool BookDatabase::load_database(){
   ifstream book_database_file;
   book_database_file.open("books.txt");
 
@@ -52,7 +60,7 @@ bool Book_Database::load_database(){
 
   }
 
-bool Book_Database::add_book(Book book_obj){
+bool BookDatabase::add_book(Book book_obj){
   //search for the book
   if(book_obj.book_id.id!=0){
     //means already exists since book_ids will start assigning from 1
@@ -60,14 +68,14 @@ bool Book_Database::add_book(Book book_obj){
   }
   else{
     book_database_vector.append(book_obj);
-    this->last_id++;
+    this->last_id++; //updating the last_id
     book_database_vector[last_id-1].update_new_book_id(last_id);
   }
 }
 
-bool Book_Database::delete_book(Book book_obj){
+bool BookDatabase::delete_book(Book book_obj){
   if(book_obj.book_id.id!=0){
-    
+
   }
 }
 

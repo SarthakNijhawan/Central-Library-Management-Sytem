@@ -92,7 +92,7 @@ public:
 	 * Returns the ID of the book
 	 */
 	long unsigned int getBookID() {
-		return book_id;
+		return book_id.id;
 	}
 
 	/**
