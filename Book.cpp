@@ -33,6 +33,7 @@ public:
 
 	/**
 	 * Returns the title of the book
+	 * @return book title
 	 */
 	String getTitle() {
 		return title;
@@ -48,6 +49,7 @@ public:
 
 	/**
 	 * Returns the name of the author of the book
+	 * @return book author name
 	 */
 	String getAuthor() {
 		return author;
@@ -63,9 +65,10 @@ public:
 
 	/**
 	 * Returns the name of the publisher of the book
+	 * @return book publisher
 	 */
-	String getPublusher() {
-		return author;
+	String getPublisher() {
+		return publisher;
 	}
 
 	/**
@@ -78,6 +81,7 @@ public:
 
 	/**
 	 * Returns the ID of the book
+	 * @return book ID
 	 */
 	long unsigned int getBookID() {
 		return book_id;
