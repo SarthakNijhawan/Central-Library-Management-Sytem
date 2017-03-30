@@ -5,21 +5,21 @@ class Book{
      * Value of the {@link #state} field indicating
      * available.
      */
-	static final int STATE_AVAILABLE = 1;
+	static const int STATE_AVAILABLE = 1;
 	/**
      * Value of the {@link #state} field indicating
      * issued.
      * If the book is claimed while it is issued,
      * the state remains issued until it is returned.
      */
-	static final int STATE_ISSUED = 2;
+	static const int STATE_ISSUED = 2;
 	/**
      * Value of the {@link #state} field indicating
      * claimed.
      * If the book is claimed while it is issued,
      * the state remains issued until it is returned.
      */
-	static final int STATE_CLAIMED = 3;
+	static const int STATE_CLAIMED = 3;
 	long unsigned int book_id;
 	string title;
 	string author;
@@ -38,10 +38,10 @@ public:
 	 * Default constructor
 	 */
 	Book() {
-		book_id = 0;
-		title = "";
-		author = "";
-		publisher = "";
+		this->book_id = 0;
+		this->title = "";
+		this->author = "";
+		this->publisher = "";
 	}
 
 	/**
@@ -56,6 +56,17 @@ public:
 		this->title = title;
 		this->author = author;
 		this->publisher = publisher;
+	}
+
+	/**
+	 * Copy constructor
+	 * @param original The book object to make a copy of
+	 */
+	Book(const Book &original) {
+		this->book_id = original.book_id;
+		this->title = original.title;
+		this->author = original.author;
+		this->publisher = original.publisher;
 	}
 
 	/**
