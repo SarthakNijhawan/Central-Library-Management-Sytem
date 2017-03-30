@@ -1,5 +1,11 @@
 #include"Book.h"
 
+class Book_id{
+public:
+	unsigned long int id = 0;
+	unsigned int number = 0;
+}
+
 class Book{
 	/**
      * Value of the {@link #state} field indicating
@@ -137,6 +143,7 @@ public:
 	 * Returns the current state of the book
 	 * @return state
 	 */
+
 	int getState() {
 		return state;
 	}
@@ -148,4 +155,16 @@ public:
 	void setState(int state) {
 		this->state = state;
 	}
+
+	void update_book_num(int i=1){ // i=1 when a book is added while i=-1 when the book is to be deleted
+		this->book_id.number+=i;
+		this->state=1;
+	}
+
+	void update_new_book_id(long unsigned int id){ // Only for newly initialised books
+		this->book_id.id=id;
+		this->book_id.number++;
+		this->state=1 ; //Now available
+	}
+
 };
