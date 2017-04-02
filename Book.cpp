@@ -1,8 +1,5 @@
 #include"Book.h"
 
-
-enum Status {1, 0, -1}; // 1 -> Available, 0-> Issued, -1-> Claimed
-
 class Book_id{
 public:
 	Book_id(unsigned long int id, unsigned int number){
@@ -14,24 +11,47 @@ public:
 }
 
 class Book{
-
-	String title;
-	String author;
-	String publisher;
-	Book_Id book_id;
-	Status state ;
+	/**
+     * Value of the {@link #state} field indicating
+     * available.
+     */
+	static const int STATE_AVAILABLE = 1;
+	/**
+     * Value of the {@link #state} field indicating
+     * issued.
+     * If the book is claimed while it is issued,
+     * the state remains issued until it is returned.
+     */
+	static const int STATE_ISSUED = 2;
+	/**
+     * Value of the {@link #state} field indicating
+     * claimed.
+     * If the book is claimed while it is issued,
+     * the state remains issued until it is returned.
+     */
+	static const int STATE_CLAIMED = 3;
+	long unsigned int book_id;
+	string title;
+	string author;
+	string publisher;
+	/**
+     * Field indicating the present state of the book.
+     * 
+     * @see #STATE_AVAILABLE
+     * @see #STATE_ISSUED
+     * @see #STATE_CLAIMED
+     */
+	int state = 1;
 
 public:
 	/**
 	 * Default constructor
 	 */
 	Book() {
+		this->book_id = 0;
 		this->title = "";
 		this->author = "";
 		this->publisher = "";
-		this->book_id.id = 0;
-		this->book_id.add_book();
-		this->state=1;
 	}
 
 	/**
@@ -41,60 +61,22 @@ public:
 	 * @param publisher The name of the publisher of the book
 	 * @param book_id The unique ID given to each book in the library
 	 */
-	Book(String title, String author, String publisher, int book_id) {
-		this->title = title;
-		this->author = author;
-		this->publisher = publisher;
+	Book(int book_id, string title, string author, string publisher) {
 		this->book_id = book_id;
-		this->state=1;
-	}
-
-	/**
-	 * Returns the title of the book
-	 * @return book title
-	 */
-	String getTitle() {
-		return title;
-	}
-
-	/**
-	 * Changes the title of the book
-	 * @param title The new title that is to be set
-	 */
-	void setTitle(String title) {
 		this->title = title;
-	}
-
-	/**
-	 * Returns the name of the author of the book
-	 * @return book author name
-	 */
-	String getAuthor() {
-		return author;
-	}
-
-	/**
-	 * Changes the name of the author of the book
-	 * @param author The new author name that is to be set
-	 */
-	void setAuthor(String author) {
 		this->author = author;
-	}
-
-	/**
-	 * Returns the name of the publisher of the book
-	 * @return book publisher
-	 */
-	String getPublisher() {
-		return publisher;
-	}
-
-	/**
-	 * Changes the name of the publisher of the book
-	 * @param publisher The new publisher name that is to be set
-	 */
-	void setPublisher(String publisher) {
 		this->publisher = publisher;
+	}
+
+	/**
+	 * Copy constructor
+	 * @param original The book object to make a copy of
+	 */
+	Book(const Book &original) {
+		this->book_id = original.book_id;
+		this->title = original.title;
+		this->author = original.author;
+		this->publisher = original.publisher;
 	}
 
 	/**
@@ -102,7 +84,7 @@ public:
 	 * @return book ID
 	 */
 	long unsigned int getBookID() {
-		return book_id.id;
+		return book_id;
 	}
 
 	/**
@@ -111,6 +93,72 @@ public:
 	 */
 	void setBookID(long unsigned int book_id) {
 		this->book_id = book_id;
+		this->state=1;
+	}
+
+	/**
+	 * Returns the title of the book
+	 * @return book title
+	 */
+	string getTitle() {
+		return title;
+	}
+
+	/**
+	 * Changes the title of the book
+	 * @param title The new title that is to be set
+	 */
+	void setTitle(string title) {
+		this->title = title;
+	}
+
+	/**
+	 * Returns the name of the author of the book
+	 * @return book author name
+	 */
+	string getAuthor() {
+		return author;
+	}
+
+	/**
+	 * Changes the name of the author of the book
+	 * @param author The new author name that is to be set
+	 */
+	void setAuthor(string author) {
+		this->author = author;
+	}
+
+	/**
+	 * Returns the name of the publisher of the book
+	 * @return book publisher
+	 */
+	string getPublisher() {
+		return publisher;
+	}
+
+	/**
+	 * Changes the name of the publisher of the book
+	 * @param publisher The new publisher name that is to be set
+	 */
+	void setPublisher(string publisher) {
+		this->publisher = publisher;
+	}
+
+	/**
+	 * Returns the current state of the book
+	 * @return state
+	 */
+
+	int getState() {
+		return state;
+	}
+
+	/**
+	 * Changes the state of the book
+	 * @param publisher The new state that is to be set
+	 */
+	void setState(int state) {
+		this->state = state;
 	}
 
 	void update_book_num(int i=1){ // i=1 when a book is added while i=-1 when the book is to be deleted
