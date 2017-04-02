@@ -2,6 +2,10 @@
 
 class Book_id{
 public:
+	Book_id(unsigned long int id, unsigned int number){
+		this->id=id;
+		this->number=number;
+	}
 	unsigned long int id = 0;
 	unsigned int number = 0;
 }
@@ -89,6 +93,7 @@ public:
 	 */
 	void setBookID(long unsigned int book_id) {
 		this->book_id = book_id;
+		this->state=1;
 	}
 
 	/**
