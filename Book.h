@@ -1,21 +1,23 @@
 #include"String.h"
 
 class Book{
-	// Attributes for books
-	String title;
-	String author;
-	String publisher;
-	long unsigned int book_id;
-
-	// Methods for Book class
+	
 	Book();
-	Book(String title, String author, String publisher, long unsigned int book_id);
-	String getTitle();
-	void setTitle(String title);
-	String getAuthor();
-	void setAuthor(String author);
-	String getPublisher();
-	void setPublisher(String publisher);
-	long unsigned int getBookID();
-	void setBookID(long unsigned int book_id);
+	Book(int accountnumber, int volumes, string title, string author, string publisher);
+	Book(const Book &original);
+	long unsigned int getAccountNumber();
+	void setAccountNumber(long unsigned int accountnumber);
+	unsigned int getVolumes();
+	void setVolumes(unsigned int volumes);
+	void increamentVolumes();
+	string getTitle();
+	void setTitle(string title);
+	string getAuthor();
+	void setAuthor(string author);
+	string getPublisher();
+	void setPublisher(string publisher);
+	int getState();
+	void setState(int state);
+
+	void displayInfo();
 };
