@@ -29,14 +29,21 @@ class Book{
 	int state = 1;
 
 public:
-
+	/**
+	Constructors
+	**/
 	Book();
-	Book(int book_id, string title, string author, string publisher);
+	Book(int accountnumber, int volumes, string title, string author, string publisher);
 	Book(const Book &original);
 
-	//Getters and setters
-	long unsigned int getBookID();
-	void setBookID(long unsigned int book_id);
+	/**
+	Getters and setters
+	**/
+	long unsigned int getAccountNumber();
+	void setAccountNumber(long unsigned int accountnumber);
+	unsigned int getVolumes();
+	void setVolumes(unsigned int volumes);
+	void increamentVolumes();
 	string getTitle();
 	void setTitle(string title);
 	string getAuthor();
@@ -45,9 +52,11 @@ public:
 	void setPublisher(string publisher);
 	int getState();
 	void setState(int state);
-	void update_book_num(int i=1);
-	void update_new_book_i(long unsigned int id);
 
+	/*
+	Operations on Book class
+	*/
+	void displayInfo();
 
 };
 
@@ -55,7 +64,8 @@ public:
  * Default constructor
  */
 Book::Book() {
-	this->book_id = 0;
+	this->accountnumber = 0;
+	this->volumes = 0;
 	this->title = "";
 	this->author = "";
 	this->publisher = "";
@@ -66,10 +76,11 @@ Book::Book() {
  * @param title The title of the book
  * @param author The name of the author of the book
  * @param publisher The name of the publisher of the book
- * @param book_id The unique ID given to each book in the library
+ * @param accountnumber The unique ID given to each book in the library
  */
-Book::Book(int book_id, string title, string author, string publisher) {
-	this->book_id = book_id;
+Book::Book(int accountnumber, int volumes, string title, string author, string publisher) {
+	this->accountnumber = accountnumber;
+	this->volumes = volumes;
 	this->title = title;
 	this->author = author;
 	this->publisher = publisher;
@@ -80,7 +91,8 @@ Book::Book(int book_id, string title, string author, string publisher) {
  * @param original The book object to make a copy of
  */
 Book::Book(const Book &original) {
-	this->book_id = original.book_id;
+	this->accountnumber = original.accountnumber;
+	this->volumes = original.volumes;
 	this->title = original.title;
 	this->author = original.author;
 	this->publisher = original.publisher;
@@ -90,17 +102,16 @@ Book::Book(const Book &original) {
  * Returns the ID of the book
  * @return book ID
  */
-long unsigned int Book::getBookID() {
-	return book_id;
+long unsigned int Book::getAccountNumber() {
+	return accountnumber;
 }
 
 /**
  * Changes the ID of the book
- * @param book_id The new ID that is to be set
+ * @param accountnumber The new ID that is to be set
  */
-void Book::setBookID(long unsigned int book_id) {
-	this->book_id = book_id;
-	this->state=1;
+void Book::setAccountNumber(long unsigned int accountnumber) {
+	this->accountnumber = accountnumber;
 }
 
 /**
@@ -108,7 +119,7 @@ void Book::setBookID(long unsigned int book_id) {
  * @return book title
  */
 string Book::getTitle() {
-	return title;
+	return this->title;
 }
 
 /**
@@ -124,7 +135,7 @@ void Book::setTitle(string title) {
  * @return book author name
  */
 string Book::getAuthor() {
-	return author;
+	return this->author;
 }
 
 /**
@@ -168,13 +179,14 @@ void Book::setState(int state) {
 	this->state = state;
 }
 
-void Book::update_book_num(int i=1){ // i=1 when a book is added while i=-1 when the book is to be deleted
-	this->book_id.number+=i;
-	this->state=1;
+unsigned int Book::getVolumes(){
+	return volumes;
 }
 
-void Book::update_new_book_i(long unsigned int id){ // Only for newly initialised books
-	this->book_id.id=id;
-	this->book_id.number++;
-	this->state=1 ; //Now available
+void Book::increamentVolumes(){
+	this->volumes++;
+}
+
+void Boook::setVolumes(int volumes){
+	this->volumes = volumes;
 }
