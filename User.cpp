@@ -19,7 +19,7 @@ class User{
     unsigned int getNumberOfBooksIssued();
     void setNumberOfBooksIssued(unsigned int number_of_books_issued);
     bool search_book(Book book);
-    bool issue_book(Book book);
+    bool issue_boo  k(Book book);
     bool claim_book(Book book);
     bool return_book();
     void display_info();
@@ -122,7 +122,7 @@ void User::setNumberOfBooksIssued(unsigned int number_of_books_issued) {
 }
 
 /**
- * TODO: FacAd, pointers wala kaam, add getter/setter for books_issued
+ * TODO:   FacAd, pointers wala kaam, add getter/setter for books_issued
  * -UnstableBrainiac
  */
 
