@@ -26,14 +26,14 @@ class Book{
 	string title;
 	string author;
 	string publisher;
-	int state = 1;
+	int state;
 
 public:
 	/**
 	Constructors
 	**/
 	Book();
-	Book(int book_id, int copies, string title, string author, string publisher);
+	Book(int book_id, string title, string author, string publisher, int copies = 1, int state = 1);// Default values will help in adding new book
 	Book(const Book &original);
 
 	/**
@@ -78,12 +78,13 @@ Book::Book() {
  * @param publisher The name of the publisher of the book
  * @param book_id The unique ID given to each book in the library
  */
-Book::Book(int book_id, int copies, string title, string author, string publisher) {
+Book::Book(int book_id, string title, string author, string publisher, int copies, int state = 1) {
 	this->book_id = book_id;
 	this->copies = copies;
 	this->title = title;
 	this->author = author;
 	this->publisher = publisher;
+	this->state = 1;
 }
 
 /**
