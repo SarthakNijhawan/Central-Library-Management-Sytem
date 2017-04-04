@@ -124,14 +124,48 @@ public:
   */
   Book* searchBookByAuthor(string author){
 
+    unordered_map<std::string, Book>::const_iterator got = books_database_by_author.find(author);
+    if(got == unordered_map.end()){
+      return NULL;
+    }
+    else {
+      return &(got->second);
+    }
+
   }
+
   Book* searchBookByBookId(int  book_id){
 
-  }
-  Book* searchBookByTitle(string title){
+    if(book_id < this->total_number_of_books){
+      return &books_database_vector[book_id];
+    }
+    else return NULL;
 
   }
+
+  Book* searchBookByTitle(string title){
+
+        unordered_map<std::string, Book>::const_iterator got = books_database_by_title.find(title);
+        if(got == unordered_map.end()){
+          return NULL;
+        }
+        else {
+          return &(got->second);
+        }
+
+
+  }
+
   Book* searchBookByPublisher(string publisher){
+
+        unordered_map<std::string, Book>::const_iterator got = books_database_by_publisher.find(publisher);
+        if(got == unordered_map.end()){
+          return NULL;
+        }
+        else {
+          return &(got->second);
+        }
+
 
   }
 
@@ -141,18 +175,23 @@ public:
   */
   Book* addBook(Book book_obj){
 
+    book_obj.book_id = total_number_of_books;
+    total_number_of_books++;
+    books_database_vector.push_back(book_obj);
+
+    return &books_database_vector[book_id];
   }
 
   /*
-  - Deletes a book only when it exists and decreaments the number of copies or
-    delete the object completely if (volume==1)
+  - Deletes a book only when it exists and decreaments the number of copies
   - Input is a pointer to the book oject in the BookDatabase data structure.
   - When number of copies of a book goes to zero that doesnot mean that the book
     object or book_id will be destroyed.
   */
   bool deleteBook(Book* book_obj){
 
-
+    book_obj->copies--;
+    return true;
   }
 
   /*
