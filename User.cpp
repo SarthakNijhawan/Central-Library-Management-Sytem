@@ -2,24 +2,25 @@
 
 class User{
   private:
-    String name;
+    string name;
     unsigned int roll_number;
-    unsigned int fine ;
+    unsigned int fine;
     unsigned int number_of_books_issued;
-    Book* books_issued[number_of_books_issued] = NULL;
+    list<Book> books_issued = NULL;
+    void issueAvailableBook(Book book);
 
   public:
     User();
-    String getName();
-    void setName(String name);
+    string getName();
+    void setName(string name);
     unsigned int getRollNumber();
     void setRollNumber(unsigned int roll_number);
     unsigned int getFine();
     void setFine(unsigned int fine);
     unsigned int getNumberOfBooksIssued();
     void setNumberOfBooksIssued(unsigned int number_of_books_issued);
+    bool issueBook(Book book);
     bool search_book(Book book);
-    bool issue_book(Book book);
     bool claim_book(Book book);
     bool return_book();
     void display_info();
@@ -42,11 +43,11 @@ User::User() {
  * Parameterized constructor
  * @param name Name of the user
  * @param roll_number Roll number of the user
- * @param fine Fine due of the user
+ * @param fine Fine due against the user
  * @param number_of_books_issued Number of books issued by the user
  * @param books_issued Pointer to the array of pointers to the books issued by the user
  */
-User::User(String name, unsigned int roll_number, unsigned int fine, unsigned int number_of_books_issued, Book* books_issued) {
+User::User(string name, unsigned int roll_number, unsigned int fine, unsigned int number_of_books_issued, Book* books_issued) {
     this->name = name;
     this->roll_number = roll_number;
     this->fine = fine;
@@ -61,7 +62,7 @@ User::User(String name, unsigned int roll_number, unsigned int fine, unsigned in
  * Returns the name of the user
  * @return user name
  */
-String User::getName() {
+string User::getName() {
     return this->name;
 }
 
@@ -69,7 +70,7 @@ String User::getName() {
  * Changes the name of the user
  * @param name The new name that is to be set
  */
-void User::setName(String name) {
+void User::setName(string name) {
     this->name = name;
 }
 
@@ -126,10 +127,29 @@ void User::setNumberOfBooksIssued(unsigned int number_of_books_issued) {
  * -UnstableBrainiac
  */
 
-bool User::issue_book(Book book){
-  // Search for the book
+/**
+ * Private method to be called after checking availability of book
+ * @param book The book that is to be issued
+ */
+void User::issueAvailableBook(Book book) {
+    /**
+     * TODO: FacAd, Add to pointer array and everything
+     * - UnstableBrainiac
+     */
+}
 
-  // Check its state if found
-
-  // return bool value
+/**
+ * Public method to issue a book if it is available
+ * @param book The book that is to be issued
+ * @return <code>true</code> if the book was successfully issued;
+ * <code>false</code> otherwise.
+ */
+bool User::issueBook(Book book) {
+    int state = book.getState();
+    if (state == Book.STATE_AVAILABLE) {
+        issueAvailableBook(book);
+        return true;
+    } else {
+        return false;
+    }
 }
