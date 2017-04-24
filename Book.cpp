@@ -26,7 +26,9 @@ class Book{
 	string title;
 	string author;
 	string publisher;
-	int state;
+	int state = 1;
+	list<User> users_issued = NULL;
+	list<User> users_claimed = NULL;
 
 public:
 	/**
