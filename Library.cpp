@@ -23,7 +23,7 @@ class Library{
     */
     bool addBook();           //done
     bool deleteBook();           //done
-    bool searchBookByAccountNumber();           //done
+    bool searchBookByBookId();           //done
     bool searchBookByTitle();           //done
     bool searchBookByAuthor();           //done
     bool searchBookByPublisher();           //done
@@ -38,7 +38,7 @@ class Library{
 };
 
   Library::Library(string book_database_file, string user_database_file){
-    if(book_database.load_database(book_database_file) && user_database.load_database(user_database_file)){
+    if(book_database.loadDatabase(book_database_file) && user_database.loadDatabase(user_database_file)){
       cout<<"Successfully loaded both the databases !!";
     }
     else {
@@ -72,11 +72,11 @@ class Library{
     Book* the_book = book_database.searchBookByTitle(newbook.title);
     //the_book will point out to the book search for if exists
     if(the_book != NULL){
-      the_book->increamentVolumes();
+      the_book->increamentCopies();
       return true;
     }
     else{
-      return (book_database.addBook(newbook) != NULL); //Note that new accountnumber will be given to the book
+      return (book_database.addBook(newbook) != NULL); //Note that new  book_id will be given to the book
     }
 
     /*
@@ -102,20 +102,20 @@ class Library{
     }
 
     /*
-    Checks the book exists or not  based on the account number and displays the info
+    Checks the book exists or not  based on the book_id and displays the info
     */
-    bool Library::searchBookByAccountNumber(){
-      cout<<"Please enter the Account Number of the Book!"<<endl;
-      long unsigned int accountnumber;
-      cin>>accountnumber;
+    bool Library::searchBookByBookId(){
+      cout<<"Please enter the book id of the Book!"<<endl;
+      long unsigned int  book_id;
+      cin>> book_id;
 
-      Book* the_book = book_database.searchBookByAccountNumber(accountnumber);
+      Book* the_book = book_database.searchBookByBookId( book_id);
 
       if(the_book != NULL){
         the_book->displayInfo();
         return true;
       }else{
-        cerr<<"There is no book with the given account number!"<<endl;
+        cerr<<"There is no book with the given book id!"<<endl;
         return false;
       }
 
