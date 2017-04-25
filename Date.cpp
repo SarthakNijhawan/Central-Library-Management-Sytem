@@ -99,7 +99,9 @@ class Date {
 
     Date operator+(unsigned int days) {
         Date new_date = new Date();
-        new_date.setDate(this->date + d.date, this->month + d.month, this->year + d.year);
+        new_date.setDate(this->date + d.date);
+        new_date.setMonth(this->month + d.month);
+        new_date.setYear(this->year + d.year);
         new_date.validate();
         return new_date;
     }
