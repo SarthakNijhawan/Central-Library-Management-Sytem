@@ -1,4 +1,5 @@
 #include "Date.h"
+#include <ctime>
 
 class Date {
     unsigned int date;
@@ -45,5 +46,11 @@ class Date {
 
     void setYear(unsigned int year) {
         this->year = year;
+    }
+
+    static Date getInstance() {
+        time_t t = time(0);
+        struct tm *now = localtime(&t);
+        return new Date(now->tm_mday, now->tm_mon, now->tm_year);
     }
 }
