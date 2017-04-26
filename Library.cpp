@@ -14,7 +14,7 @@ private:
     std::unordered_map<std::string, Book> books_database_by_author; // Hashmaps used
     std::unordered_map<std::string, Book> books_database_by_publisher; // Hashmaps used
     std::unordered_map<std::string, Book> books_database_by_title; // Hashmaps used
-    std::unordered_map<std::string, Book> users_database;
+    std::unordered_map<std::string, Book> users_database; // Hashmaps used
 
 public:
     /*
@@ -148,8 +148,8 @@ bool Library::updateDatabase(string filename){
     while(itr != books_database_vector.end()){
         stringstream my_stream;
 
-        my_stream << (itr*).book_id << ',' << (itr*).title << ',' << (itr*).author
-        << ',' << (itr*).publisher << ',' << (itr*).copies << ',' << (itr*).state;
+        my_stream << *(itr).book_id << ',' << (*itr).title << ',' << (*itr).author
+        << ',' << *(itr).publisher << ',' << (*itr).copies << ',' << (*itr).state;
 
         file << my_stream.str() << std::endl;
 
