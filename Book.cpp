@@ -2,21 +2,27 @@
 
 class Book {
 	/**
-     * Value of the {@link #state} field indicating
+     * Value of the #state field indicating
      * available.
-	 * This is the state of the book when atleast one copy of the book is available with the library.
+	 * The state of the book when
+	 * atleast one copy of the book
+	 * is available with the library.
      */
 	static const int STATE_AVAILABLE = 1;
 	/**
-     * Value of the {@link #state} field indicating
+     * Value of the #state field indicating
      * issued.
-     * The state of the book when all the copies are issued but there are no claims on the book
+     * The state of the book when
+	 * all the copies are issued
+	 * but there are no claims on the book.
      */
 	static const int STATE_ISSUED = 2;
 	/**
-     * Value of the {@link #state} field indicating
+     * Value of the #state field indicating
      * claimed.
-	 * The state of the book when there is atleast one claim on the book after all the copies have been issued
+	 * The state of the book when
+	 * there is atleast one claim on the book
+	 * after all the copies have been issued.
      */
 	static const int STATE_CLAIMED = 3;
 
@@ -159,7 +165,7 @@ public:
 
 	/**
 	 * Returns the number of copies of the book
-	 * @return state
+	 * @return number of copies
 	 */
 	unsigned int getCopies(){
 		return copies;
@@ -171,6 +177,38 @@ public:
 	 */
 	void setCopies(int copies){
 		this->copies = copies;
+	}
+
+	/**
+	 * Returns the list of issue objects associated with the book
+	 * @return issue list
+	 */
+	list<Issue> getIssueList(){
+		return issue_list;
+	}
+
+	/**
+	 * Changes the list of issue objects associated with the book
+	 * @param issue_list The new list that is to be set
+	 */
+	void setIssueList(List<Issue> issue_list){
+		this->issue_list = issue_list;
+	}
+
+	/**
+	 * Returns the list of claim objects associated with the book
+	 * @return claim list
+	 */
+	list<Claim> getClaimList(){
+		return claim_list;
+	}
+
+	/**
+	 * Changes the list of claim objects associated with the book
+	 * @param claim_list The new list that is to be set
+	 */
+	void setClaimList(List<Claim> claim_list){
+		this->claim_list = claim_list;
 	}
 
 	void updateState() {

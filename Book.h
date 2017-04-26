@@ -28,6 +28,10 @@ public:
 	void setState(int state);
 	unsigned int getCopies();
 	void setCopies(unsigned int copies);
+	list<Issue> getIssueList();
+	void setIssueList(list<Issue> issue_list);
+	list<Claim> getClaimList();
+	void setClaimList(list<Claim> claim_list);
 	void updateState();
 	void display();
 }
