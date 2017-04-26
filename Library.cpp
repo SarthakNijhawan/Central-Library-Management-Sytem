@@ -10,183 +10,232 @@ class Library{
 private:
     static const int number_of_attributes_in_file = 6; //Keeps track of number of columns in csv file delimied by ','
 
-    long unsigned int total_number_of_books;
     std::vector<Book> books_database_vector; // The indices will be nothing but the book_id
     std::unordered_map<std::string, Book> books_database_by_author; // Hashmaps used
     std::unordered_map<std::string, Book> books_database_by_publisher; // Hashmaps used
     std::unordered_map<std::string, Book> books_database_by_title; // Hashmaps used
-
+    std::unordered_map<std::string, Book> users_database; // Hashmaps used
 
 public:
     /*
     Constructor and Destructors
     */
+    Library();
     Library(string book_database_file, string user_database_file);           //done
-    ~Library();           //done
+    ~Library();
+
 
     /*
     Operations on books
     */
-    bool addBook();           //done
-    bool deleteBook();           //done
-    bool searchBookByBookId();           //done
-    bool searchBookByTitle();           //done
-    bool searchBookByAuthor();           //done
-    bool searchBookByPublisher();           //done
+    bool addBook(string title, string publisher, string author);           //done
+    bool deleteBook(Book* the_book);           //done
+    Book* searchBookByBookId(unsigned int book_id);           //done
+    Book* searchBookByTitle(string title);           //done
+    Book* searchBookByAuthor(string author);           //done
+    Book* searchBookByPublisher(string publisher);
+    User* searchUser(unsigned int roll_number);
 
     /*
     Issue and return functions
     */
-    void issueBook(user user_info, Book book_to_be_issued);
-    void returnBook();
-    void claimBook();
+    bool issueBook(Book* the_book, User* the_user);
+    bool returnBook(Book* the_book, User* the_user);
+    bool claimBook(Book* the_book, User* the_user);
+
+    /*
+    Database functions
+    */
+    bool loadDatabase(string filename);
+    bool updateDatabase(string filename);
+    Book vectorToBook(std::vector<string> book_vector);
 
 };
 
-  Library::Library(string book_database_file, string user_database_file){
-    if(book_database.loadDatabase(book_database_file) && user_database.loadDatabase(user_database_file)){
-      cout<<"Successfully loaded both the databases !!";
+Library::Library();
+
+Library::Library(string book_database_file, string user_database_file){
+    if(this->loadDatabase(book_database_file) && user_database.loadDatabase(user_database_file)){
+        cout<<"Successfully loaded both the databases !!";
     }
     else {
-      cerr<<"Error loading the databases !!!";
+        cerr<<"Error loading the databases !!!";
     }
 
-  }
+}
 
-  Library::~Library(){
+Library::~Library(){
     if(updateDatabase(book_database, "books.txt") && updateDatabase(user_database, "users.txt")){
-      cout<<"Successfully written into the databases !!";
+        cout<<"Successfully written into the databases !!";
     }
     else {
-      cerr<<"Error writing into the databases !!!";
+        cerr<<"Error writing into the databases !!!";
     }
 
-  }
+}
 
-  /*
-  Checks whether a book exists previously, udpdates it and adds it to the database if not.
-  */
-  bool Library::addBook(){
-    Book newbook;
-    cout<<"Please enter the Title of the book !"<<endl;
-    cin>>newbook.title;
-    cout<<"Please enter the Author of the book !"<<endl;
-    cin>>newbook.author;
-    cout<<"Please enter the Publisher of the book !"<<endl;
-    cin>>newbook.publisher;
+/*
+- Loads the database into a vector with book_ids as indices and
+3 unordered maps each corresponding to the string searches
+- Called by the library class Constructor
+*/
+bool Library::loadDatabase(string filename){
+    ifstream file;
+    file.open(filename);
 
-    Book* the_book = book_database.searchBookByTitle(newbook.title);
-    //the_book will point out to the book search for if exists
-    if(the_book != NULL){
-      the_book->increamentCopies();
-      return true;
-    }
-    else{
-      return (book_database.addBook(newbook) != NULL); //Note that new  book_id will be given to the book
+    if(file.fail()){
+        cerr<<"Error opening file!"<<endl;
+        exit(1);
     }
 
-    /*
-    Checks the book exists or not and accordingly deletes it if it does.
-    */
-    bool Library::deleteBook(){
-      Book book_to_be_deleted;
-      cout<<"Please enter the Title of the book !"<<endl;
-      cin>>book_to_be_deleted.title;
-      cout<<"Please enter the Author of the book !"<<endl;
-      cin>>book_to_be_deleted.author;
-      cout<<"Please enter the Publisher of the book !"<<endl;
-      cin>>book_to_be_deleted.publisher;
+    //Reads the file line by line
+    string value;
+    while(getline(file, value)){
+        stringstream my_stream(value);
+        std::vector<string> single_book_vector(number_of_attributes_in_file);
+        int i = 0;
 
-      Book* the_book = book_database.searchBookByTitle(book_to_be_deleted.title);
-
-        if(the_book == NULL){
-          cerr << "The book you mentioned doesnot exist !"<<endl;
-          return false;
-        }else{
-          return book_database.deleteBook(the_book);
+        // This while loop is feeding in info of a single book into a vector
+        while(getline(my_stream, single_book_vector[i], ',')){
+            i++;
         }
+
+        a_book = vectorToBook(single_book_vector);
+        books_database_vector.push_back(a_book);
+
+        //Constructed pairs for inserting into unordered maps
+        std::pair<std::string, Book> title_pair(a_book.title, a_book);
+        std::pair<std::string, Book> author_pair(a_book.author, a_book);
+        std::pair<std::string, Book> publisher_pair(a_book.publisher, a_book);
+        books_database_by_title.insert(title_pair);
+        books_database_by_author.insert(author_pair);
+        books_database_by_publisher.insert(publisher_pair);
+    }
+    this->total_number_of_books = this->books_database_vector.size();
+    file.close();
+    return true;
+}
+
+/*
+Converts a vector from a file into a book. The order follows:
+- Book_id
+- Title
+- Author
+- Publisher
+- Number_of_copies
+- State
+*/
+Book Library::vectorToBook(std::vector<string> book_vector){
+    return Book(stoi(book_vector[0]), book_vector[1], book_vector[2], book_vector[3], stoi(book_vector[4]), stoi(book_vector[5]));
+}
+
+
+
+/*
+Writes into the database
+*/
+bool Library::updateDatabase(string filename){
+    ofstream file;
+    file.open(filename);
+
+    std::std::vector<Book>::iterator itr = books_database_vector.begin();
+
+    if(file.fail()){
+        cerr << "Opening the file! "<<endl;
+        exit(1);
     }
 
-    /*
-    Checks the book exists or not  based on the book_id and displays the info
-    */
-    bool Library::searchBookByBookId(){
-      cout<<"Please enter the book id of the Book!"<<endl;
-      long unsigned int  book_id;
-      cin>> book_id;
+    while(itr != books_database_vector.end()){
+        stringstream my_stream;
 
-      Book* the_book = book_database.searchBookByBookId( book_id);
+        my_stream << *(itr).book_id << ',' << (*itr).title << ',' << (*itr).author
+        << ',' << *(itr).publisher << ',' << (*itr).copies << ',' << (*itr).state;
 
-      if(the_book != NULL){
-        the_book->displayInfo();
+        file << my_stream.str() << std::endl;
+
+    }
+
+    file.close();
+    return true;
+}
+
+/*
+Returns the pointer to the book searched for else a NULL if book doesnot exist.
+*/
+Book* Library::searchBookByAuthor(string author){
+
+    unordered_map<std::string, Book>::const_iterator got = books_database_by_author.find(author);
+    if(got == unordered_map.end()){
+        return NULL;
+    }
+    else {
+        return &(got->second);
+    }
+
+}
+
+Book* Library::searchBookByBookId(unsigned int book_id){
+
+    if(book_id < this->total_number_of_books){
+        return &books_database_vector[book_id];
+    }
+    else return NULL;
+
+}
+
+Book* Library::searchBookByTitle(string title){
+
+    unordered_map<std::string, Book>::const_iterator got = books_database_by_title.find(title);
+    if(got == unordered_map.end()){
+        return NULL;
+    }
+    else {
+        return &(got->second);
+    }
+
+
+}
+
+Book* Library::searchBookByPublisher(string publisher){
+
+    unordered_map<std::string, Book>::const_iterator got = books_database_by_publisher.find(publisher);
+    if(got == unordered_map.end()){
+        return NULL;
+    }
+    else {
+        return &(got->second);
+    }
+
+
+}
+
+/*
+Adds a book to the database
+The book_object wont have any book_id initially, it has to be assigned.
+*/
+bool Library::addBook(title, publisher, author){
+    Book* the_book = this->searchBookByTitle(title);
+    if(the_book != NULL) {
+        the_book->setCopies(the_book->getCopies() + 1);
+    } else {
+        books_database_vector.push_back(Book(title, publisher, author));
+        unsigned int length = books_database_vector.size();
+        books_database_vector[length-1].setBookId(length);
+    }
+    return true;
+}
+
+/*
+- Deletes a book only when it exists and decreaments the number of copies
+- Input is a pointer to the book oject in the BookDatabase data structure.
+- When number of copies of a book goes to zero that doesnot mean that the book
+object or book_id will be destroyed.
+*/
+bool Library::deleteBook(Book* book_obj){
+    if(book_obj->getCopies()!=0) {
+        book_obj->setCopies(book_obj->getCopies()-1);
         return true;
-      }else{
-        cerr<<"There is no book with the given book id!"<<endl;
-        return false;
-      }
-
     }
-
-    /*
-    Checks the book exists or not based on the title of the book and displays the info
-    */
-    bool Library::searchBookByTitle(){
-      cout<<"Please enter the Title of the Book!"<<endl;
-      string title;
-      cin>>title;
-
-      Book* the_book = book_database.searchBookByTitle(title);
-
-      if(the_book != NULL){
-        the_book->displayInfo();
-        return true;
-      }else{
-        cerr<<"There is no book with the given title!"<<endl;
-        return false;
-      }
-
-    }
-
-    /*
-    Checks the book exists or not based on the publisher and displays the info
-    */
-    bool Library::searchBookByPublisher(){
-      cout<<"Please enter the Publisher of the Book!"<<endl;
-      string publisher;
-      cin>>publisher;
-
-      Book* the_book = book_database.searchBookByPublisher(publisher);
-
-      if(the_book != NULL){
-        the_book->displayInfo();
-        return true;
-      }else{
-        cerr<<"There is no book with the given publisher!"<<endl;
-        return false;
-      }
-
-    }
-
-
-    /*
-    Checks the book exists or not based on the Author and displays the info
-    */
-    bool Library::searchBookByAuthor(){
-      cout<<"Please enter the Author of the Book!"<<endl;
-      string author;
-      cin>>author;
-
-      Book* the_book = book_database.searchBookByAuthor(author);
-
-      if(the_book != NULL){
-        the_book->displayInfo();
-        return true;
-      }else{
-        cerr<<"There is no book with the given author!"<<endl;
-        return false;
-      }
-
-    }
-
-
-  }
+    cerr << "The book has already been removed!"<<endl;
+    return false;
+}
