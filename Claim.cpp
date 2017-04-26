@@ -2,7 +2,7 @@
 
 class Claim {
     Date claim_date;
-    Date expiry_date;
+    Date expiry_date;       //Remove this?
     Book book;
     User user;
 
@@ -58,5 +58,12 @@ public:
 
     void setUser(User user) {
         this->user = user;
+    }
+
+    bool isValid() {
+        Date current_date = Date.getInstance();
+        if (claim_date == NULL || current_date > expiry_date)
+            return false;
+        return true;
     }
 }
