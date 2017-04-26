@@ -20,10 +20,12 @@ int main(){
         unsigned int roll_number;
         cin >> roll_number;
 
-        User* current_user = my_library.searchUserByRollNumber();
+        User* current_user = my_library.searchUser(roll_number);
         Book* current_book = NULL;
 
         if(current_user != NULL) {
+            current_user->displayInfo();
+
             while (true) {
                 displayOptions();
                 int answer;
@@ -61,7 +63,7 @@ int main(){
                         current_book = searchBook();
 
                         if(current_book != NULL) {
-                            my_library.issueBook(current_book);
+                            my_library.issueBook(current_book, current_book);
                             cout << "The book is issued successfully !"<< endl;
                         } else {
                             cerr<< "Sorry no such book exists!"<<endl;
@@ -82,7 +84,7 @@ int main(){
                         current_book = searchBook();
 
                         if(current_book != NULL) {
-                            my_library.claimBook(current_book);
+                            my_library.claimBook(current_book, current_book);
                             cout << "The book is claimed successfully !"<< endl;
                         } else {
                             cerr<< "Sorry no such book exists !"<<endl;
@@ -92,7 +94,7 @@ int main(){
                         current_book = searchBook();
 
                         if(current_book != NULL) {
-                            my_library.returnBook(current_book);
+                            my_library.returnBook(current_book, current_book);
                             cout << "The book is returned successfully !"<< endl;
                         } else {
                             cerr<< "Sorry no such book exists !"<<endl;
