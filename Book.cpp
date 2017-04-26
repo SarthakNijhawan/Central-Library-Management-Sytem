@@ -194,6 +194,7 @@ public:
 		cout << book_id << " : " << title << endl;
 		cout << "Written by: " << author << endl;
 		cout << "Published by: " << publisher << endl;
+		cout << "Total number of copies: " << copies << endl;
 		switch (state) {
 			case STATE_AVAILABLE:
 				cout << (copies - issue_list.size()) " copies are available.";
@@ -201,19 +202,19 @@ public:
 					break;
 			case STATE_ISSUED:
 				list<Issue>::iterator it = this->issue_list.begin();
-				cout << "Users who have issued this book:";
+				cout << "Users who have issued this book:" << endl;
 				while (it != this->issue_list.end()) {
 					it->display();
 				}
 				break;
 			case STATE_CLAIMED:
 				list<Issue>::iterator it = this->issue_list.begin();
-				cout << "Users who have issued this book:";
+				cout << "Users who have issued this book:" << endl;
 				while (it != this->issue_list.end()) {
 					it->display();
 				}
 				list<Claim>::iterator it = this->claim_list.begin();
-				cout << "Users who have claimed this book:";
+				cout << "Users who have claimed this book:" << endl;
 				while (it != this->issue_list.end()) {
 					it->display();
 				}
