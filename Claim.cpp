@@ -54,4 +54,37 @@ public:
             return false;
         return true;
     }
+
+    void display() {
+        cout << book.getTitle() << " claimed by " << user.getName();
+        if (claim_date == NULL) {
+            /**
+             * TODO: FacAd, search in queue to find position of current user
+             * int position = ?
+             * -UnstableBrainiac
+             */
+            string suffix;
+            switch (position) {
+                case 1:
+                    suffix = "st";
+                    break;
+                case 2:
+                    suffix = "nd";
+                    break;
+                case 3:
+                    suffix = "rd";
+                    break;
+                default:
+                    suffix = "th";
+                    break;
+            }
+            cout << "The claim is " + position + suffix +" in the queue.";
+            return;
+        }
+        if (isValid()) {
+            cout << "The claim is valid for " << (claim_date - current_date) << " more days";
+            return;
+        }
+        cout << "The claim has expired.";
+    }
 }
