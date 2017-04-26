@@ -91,17 +91,29 @@ class Date {
     void validate() {
         if (isValid())
             return;
-        int numDays = getDaysInMonth(month, year);
-        days -= numDays;
-        month = month == 12 ? 1 : month + 1;
+        if (days < 0) {
+            month = month == 1 ? 12 : month - 1;
+            int numDays = getDaysInMonth(month, year);
+            days +=  numDays;
+        }
+        else {
+            int numDays = getDaysInMonth(month, year);
+            days -= numDays;
+            month = month == 12 ? 1 : month + 1;
+        }
         validate();
     }
 
     Date operator+(unsigned int days) {
-        Date new_date = new Date();
-        new_date.setDate(this->date + d.date);
-        new_date.setMonth(this->month + d.month);
-        new_date.setYear(this->year + d.year);
+        Date new_date = new Date(*this);
+        new_date.date += days;
+        new_date.validate();
+        return new_date;
+    }
+
+    Date operator-(unsigned int days) {
+        Date new_date = new Date(*this);
+        new_date.date -= days;
         new_date.validate();
         return new_date;
     }
