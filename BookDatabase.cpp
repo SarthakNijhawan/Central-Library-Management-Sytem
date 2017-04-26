@@ -1,31 +1,4 @@
-#include"BookDatabase.h"
-#include"Book.h"
-#include<fstream.h>
-#include<sstream.h>
-#include<unordered_map.h>
-#include<string>
-#include<vector>
-#include<pair>
-#include<stdlib.h>
-
 class BookDatabase{
-
-private:
-  static const int number_of_attributes_in_file = 6; //Keeps track of number of columns in csv file delimied by ','
-
-  long unsigned int total_number_of_books;
-  std::vector<Book> books_database_vector; // The indices will be nothing but the book_id
-  std::unordered_map<std::string, Book> books_database_by_author; // Hashmaps used
-  std::unordered_map<std::string, Book> books_database_by_publisher; // Hashmaps used
-  std::unordered_map<std::string, Book> books_database_by_title; // Hashmaps used
-
-public:
-  /*
-  Constructor and Destructor
-  */
-  BookDatabase(){
-    this->total_number_of_books = 0;
-  }
 
   /*
   - Loads the database into a vector with book_ids as indices and
