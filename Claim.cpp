@@ -1,4 +1,5 @@
 #include "Claim.h"
+#include <algorithm>
 
 class Claim {
     Date claim_date;
@@ -58,11 +59,9 @@ public:
     void display() {
         cout << book.getTitle() << " claimed by " << user.getName() << endl;
         if (claim_date == NULL) {
-            /**
-             * TODO: FacAd, search in queue to find position of current user
-             * int position = ?
-             * -UnstableBrainiac
-             */
+            list<Claim> claim_list = book.getClaimList();
+            list<Claim>::iterator it = find(claim_list.begin(), claim_list.end(), *this);
+            int position = distance(claim_list.begin(), it) + 1;
             string suffix;
             switch (position) {
                 case 1:

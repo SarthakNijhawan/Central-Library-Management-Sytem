@@ -161,7 +161,10 @@ public:
         list<Issue>::iterator it = book->issue_list.begin();
 
         while(it != book->issue_list.end()) {
-            //TODO?
+            if (it->user == user) {
+                this->issue_list.erase(it);
+                break;
+            }
         }
     }
 
