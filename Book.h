@@ -1,15 +1,23 @@
-#include"String.h"
-
 class Book{
-	
+private:
+	static const int STATE_AVAILABLE = 1;
+	static const int STATE_ISSUED = 2;
+	static const int STATE_CLAIMED = 3;
+	long unsigned int book_id;
+	int state;
+	unsigned int copies;
+	string title;
+	string author;
+	string publisher;
+	list<Issue> issue_list;
+	list<Claim> claim_list;
+
+public:
 	Book();
-	Book(int accountnumber, int volumes, string title, string author, string publisher);
+	Book(int book_id, string title, string author, string publisher, int copies, int state = 1, list<Issue> issue_list, list<Claim> claim_list);
 	Book(const Book &original);
-	long unsigned int getAccountNumber();
-	void setAccountNumber(long unsigned int accountnumber);
-	unsigned int getVolumes();
-	void setVolumes(unsigned int volumes);
-	void increamentVolumes();
+	long unsigned int getBookId();
+	void setBookId(long unsigned int book_id);
 	string getTitle();
 	void setTitle(string title);
 	string getAuthor();
@@ -18,6 +26,8 @@ class Book{
 	void setPublisher(string publisher);
 	int getState();
 	void setState(int state);
-
-	void displayInfo();
-};
+	unsigned int getCopies();
+	void setCopies(unsigned int copies);
+	void updateState();
+	void display();
+}
