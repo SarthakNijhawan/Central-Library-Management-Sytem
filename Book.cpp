@@ -1,4 +1,6 @@
 #include"Book.h"
+#include<queue>
+#include<string>
 
 class Book{
 	/**
@@ -22,13 +24,14 @@ class Book{
 	static const int STATE_CLAIMED = 3;
 
 	long unsigned int book_id;
+	int state;
 	unsigned int copies;
 	string title;
 	string author;
 	string publisher;
-	int state = 1;
-	list<User> users_issued = NULL;
-	list<User> users_claimed = NULL;
+
+	list<Issue> issue_ist;
+	queue<Claim> claim_list;
 
 public:
 	/**
@@ -36,6 +39,8 @@ public:
 	**/
 	Book();
 	Book(int book_id, string title, string author, string publisher, int copies = 1, int state = 1);// Default values will help in adding new book
+	Book(int book_id, string title, string author, string publisher, int copies = 1,
+		 int state = 1, list<Issue> issue_list, queue<Claim> claim_list);
 	Book(const Book &original);
 
 	/**
@@ -45,7 +50,6 @@ public:
 	void setBookId(long unsigned int book_id);
 	unsigned int getCopies();
 	void setCopies(unsigned int copies);
-	void increamentCopies();
 	string getTitle();
 	void setTitle(string title);
 	string getAuthor();
@@ -54,6 +58,7 @@ public:
 	void setPublisher(string publisher);
 	int getState();
 	void setState(int state);
+	void updateState();
 
 	/*
 	Operations on Book class
@@ -86,8 +91,20 @@ Book::Book(int book_id, string title, string author, string publisher, int copie
 	this->title = title;
 	this->author = author;
 	this->publisher = publisher;
-	this->state = 1;
+	this->state = state;
 }
+
+Book::Book(int book_id, string title, string author, string publisher, int copies, int state = 1, list<Issue> issue_list, queue<Claim> claim_list) {
+	this->book_id = book_id;
+	this->copies = copies;
+	this->title = title;
+	this->author = author;
+	this->publisher = publisher;
+	this->state = state;
+	this->issue_list = issue_list;
+	this->claim_list = claim_list;
+}
+
 
 /**
  * Copy constructor
@@ -166,29 +183,33 @@ void Book::setPublisher(string publisher) {
 }
 
 /**
- * Returns the current state of the book
+ * Returns the current state of the book which is updated each time the function is called
  * @return state
  */
 
 int Book::getState() {
+	this->updateState();
 	return state;
 }
 
-/**
- * Changes the state of the book
- * @param publisher The new state that is to be set
- */
-void Book::setState(int state) {
-	this->state = state;
+void updateState() {
+	if(!claim_list.empty()) {
+		this->state = STATE_CLAIMED;
+	}
+	else {
+		if(issue_list.size() < this->copies) {
+			this->state = STATE_AVAILABLE;
+		}
+		else(issue_list.size() == this->copies) {
+
+		}
+	}
 }
 
 unsigned int Book::getCopies(){
 	return copies;
 }
 
-void Book::increamentCopies(){
-	this->copies++;
-}
 
 void Boook::setCopies(int copies){
 	this->copies = copies;

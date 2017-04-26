@@ -3,7 +3,7 @@
 class Issue {
     Date issue_date;
     Date due_date;
-    float fine;
+    float fine = 0;
     Book book;
     User user;
 
@@ -16,10 +16,9 @@ public:
         this->user = NULL;
     }
 
-    Issue(Date issue_date, Date due_date, float fine, Book book, User user) {
+    Issue(Date issue_date, Book book, User user) {
         this->issue_date = issue_date;
-        this->due_date = due_date;
-        this->fine = fine;
+        this->due_date = issue_date + Date(0, 1, 0);
         this->book = book;
         this->user = user;
     }
