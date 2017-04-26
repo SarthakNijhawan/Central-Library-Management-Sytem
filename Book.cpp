@@ -1,25 +1,22 @@
 #include"Book.h"
-#include<queue>
-#include<string>
 
 class Book {
 	/**
      * Value of the {@link #state} field indicating
      * available.
+	 * This is the state of the book when atleast one copy of the book is available with the library.
      */
 	static const int STATE_AVAILABLE = 1;
 	/**
      * Value of the {@link #state} field indicating
      * issued.
-     * If the book is claimed while it is issued,
-     * the state remains issued until it is returned.
+     * The state of the book when all the copies are issued but there are no claims on the book
      */
 	static const int STATE_ISSUED = 2;
 	/**
      * Value of the {@link #state} field indicating
      * claimed.
-     * If the book is claimed while it is issued,
-     * the state remains issued until it is returned.
+	 * The state of the book when there is atleast one claim on the book after all the copies have been issued
      */
 	static const int STATE_CLAIMED = 3;
 
