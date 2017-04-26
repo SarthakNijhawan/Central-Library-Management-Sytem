@@ -7,11 +7,17 @@
 
 
 class Library{
-  private:
-    Book_Database book_database;
-    User_Database user_database;
+private:
+    static const int number_of_attributes_in_file = 6; //Keeps track of number of columns in csv file delimied by ','
 
-  public:
+    long unsigned int total_number_of_books;
+    std::vector<Book> books_database_vector; // The indices will be nothing but the book_id
+    std::unordered_map<std::string, Book> books_database_by_author; // Hashmaps used
+    std::unordered_map<std::string, Book> books_database_by_publisher; // Hashmaps used
+    std::unordered_map<std::string, Book> books_database_by_title; // Hashmaps used
+
+
+public:
     /*
     Constructor and Destructors
     */
