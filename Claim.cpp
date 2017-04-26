@@ -56,7 +56,7 @@ public:
     }
 
     void display() {
-        cout << book.getTitle() << " claimed by " << user.getName();
+        cout << book.getTitle() << " claimed by " << user.getName() << endl;
         if (claim_date == NULL) {
             /**
              * TODO: FacAd, search in queue to find position of current user
@@ -78,13 +78,13 @@ public:
                     suffix = "th";
                     break;
             }
-            cout << "The claim is " + position + suffix +" in the queue.";
+            cout << "The claim is " + position + suffix +" in the queue." << endl;
             return;
         }
         if (isValid()) {
-            cout << "The claim is valid for " << (claim_date - current_date) << " more days";
+            cout << "The claim is valid for " << (claim_date - current_date + 4) << " more days" << endl;
             return;
         }
-        cout << "The claim has expired.";
+        cout << "The claim has expired." << endl;
     }
 }

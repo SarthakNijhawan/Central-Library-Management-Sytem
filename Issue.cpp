@@ -81,13 +81,13 @@ public:
     }
 
     void display() {
-        cout << book.getTitle() << " issued by " << user.getName();
+        cout << book.getTitle() << " issued by " << user.getName() << endl;
         if (issue_date != NULL) {
-            cout << "Issue Date: " << issue_date;
+            cout << "Issue Date: " << issue_date << endl;
         }
         if (due_date != NULL) {
-            cout << "Due Date: " << due_date;
+            cout << "Due Date: " << due_date << endl;
         }
-        cout << "Fine: " << fine << " INR";
+        cout << "Fine: " << fine << " INR" << endl;
     }
 }

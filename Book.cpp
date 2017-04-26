@@ -2,7 +2,7 @@
 #include<queue>
 #include<string>
 
-class Book{
+class Book {
 	/**
      * Value of the {@link #state} field indicating
      * available.
@@ -30,187 +30,195 @@ class Book{
 	string author;
 	string publisher;
 
-	list<Issue> issue_ist;
-	queue<Claim> claim_list;
+	list<Issue> issue_list;
+	list<Claim> claim_list;
 
 public:
 	/**
-	Constructors
-	**/
-	Book();
-	Book(int book_id, string title, string author, string publisher, int copies = 1, int state = 1);// Default values will help in adding new book
-	Book(int book_id, string title, string author, string publisher, int copies = 1,
-		 int state = 1, list<Issue> issue_list, queue<Claim> claim_list);
-	Book(const Book &original);
+	 * Default constructor
+	 */
+	Book() {
+		this->book_id = 0;
+		this->copies = 0;
+		this->title = "";
+		this->author = "";
+		this->publisher = "";
+	}
 
 	/**
-	Getters and setters
-	**/
-	long unsigned int getBookId();
-	void setBookId(long unsigned int book_id);
-	unsigned int getCopies();
-	void setCopies(unsigned int copies);
-	string getTitle();
-	void setTitle(string title);
-	string getAuthor();
-	void setAuthor(string author);
-	string getPublisher();
-	void setPublisher(string publisher);
-	int getState();
-	void setState(int state);
-	void updateState();
-
-	/*
-	Operations on Book class
-	*/
-	void displayInfo();
-
-};
-
-/**
- * Default constructor
- */
-Book::Book() {
-	this->book_id = 0;
-	this->copies = 0;
-	this->title = "";
-	this->author = "";
-	this->publisher = "";
-}
-
-/**
- * Parameterized constructor
- * @param title The title of the book
- * @param author The name of the author of the book
- * @param publisher The name of the publisher of the book
- * @param book_id The unique ID given to each book in the library
- */
-Book::Book(int book_id, string title, string author, string publisher, int copies, int state = 1) {
-	this->book_id = book_id;
-	this->copies = copies;
-	this->title = title;
-	this->author = author;
-	this->publisher = publisher;
-	this->state = state;
-}
-
-Book::Book(int book_id, string title, string author, string publisher, int copies, int state = 1, list<Issue> issue_list, queue<Claim> claim_list) {
-	this->book_id = book_id;
-	this->copies = copies;
-	this->title = title;
-	this->author = author;
-	this->publisher = publisher;
-	this->state = state;
-	this->issue_list = issue_list;
-	this->claim_list = claim_list;
-}
-
-
-/**
- * Copy constructor
- * @param original The book object to make a copy of
- */
-Book::Book(const Book &original) {
-	this->book_id = original.book_id;
-	this->copies = original.copies;
-	this->title = original.title;
-	this->author = original.author;
-	this->publisher = original.publisher;
-}
-
-/**
- * Returns the ID of the book
- * @return book ID
- */
-long unsigned int Book::getBookId() {
-	return book_id;
-}
-
-/**
- * Changes the ID of the book
- * @param book_id The new ID that is to be set
- */
-void Book::setBookId(long unsigned int book_id) {
-	this->book_id = book_id;
-}
-
-/**
- * Returns the title of the book
- * @return book title
- */
-string Book::getTitle() {
-	return this->title;
-}
-
-/**
- * Changes the title of the book
- * @param title The new title that is to be set
- */
-void Book::setTitle(string title) {
-	this->title = title;
-}
-
-/**
- * Returns the name of the author of the book
- * @return book author name
- */
-string Book::getAuthor() {
-	return this->author;
-}
-
-/**
- * Changes the name of the author of the book
- * @param author The new author name that is to be set
- */
-void Book::setAuthor(string author) {
-	this->author = author;
-}
-
-/**
- * Returns the name of the publisher of the book
- * @return book publisher
- */
-string Book::getPublisher() {
-	return publisher;
-}
-
-/**
- * Changes the name of the publisher of the book
- * @param publisher The new publisher name that is to be set
- */
-void Book::setPublisher(string publisher) {
-	this->publisher = publisher;
-}
-
-/**
- * Returns the current state of the book which is updated each time the function is called
- * @return state
- */
-
-int Book::getState() {
-	this->updateState();
-	return state;
-}
-
-void updateState() {
-	if(!claim_list.empty()) {
-		this->state = STATE_CLAIMED;
+	 * Parameterized constructor
+	 * @param book_id The unique ID given to each book in the library
+	 * @param title The title of the book
+	 * @param author The name of the author of the book
+	 * @param publisher The name of the publisher of the book
+	 * @param copies The number of copies of the book
+	 * @param state The current state of the book
+	 * @param issue_list List of issue objects associated with the book
+	 * @param claim_list List of claim objects associated with the book
+	 */
+	Book(int book_id, string title, string author, string publisher, int copies, int state = 1, list<Issue> issue_list, list<Claim> claim_list) {
+		this->book_id = book_id;
+		this->title = title;
+		this->author = author;
+		this->publisher = publisher;
+		this->copies = copies;
 	}
-	else {
-		if(issue_list.size() < this->copies) {
-			this->state = STATE_AVAILABLE;
-		}
-		else(issue_list.size() == this->copies) {
 
+	/**
+	 * Copy constructor
+	 * @param original The book object to make a copy of
+	 */
+	Book(const Book &original) {
+		this->book_id = original.book_id;
+		this->title = original.title;
+		this->author = original.author;
+		this->publisher = original.publisher;
+		this->copies = original.copies;
+		this->state = original.state;
+		this->issue_list = original.issue_list;
+		this->claim_list = original.claim_list;
+	}
+
+	/**
+	 * Returns the ID of the book
+	 * @return book ID
+	 */
+	long unsigned int getBookId() {
+		return book_id;
+	}
+
+	/**
+	 * Changes the ID of the book
+	 * @param book_id The new ID that is to be set
+	 */
+	void setBookId(long unsigned int book_id) {
+		this->book_id = book_id;
+	}
+
+	/**
+	 * Returns the title of the book
+	 * @return book title
+	 */
+	string getTitle() {
+		return this->title;
+	}
+
+	/**
+	 * Changes the title of the book
+	 * @param title The new title that is to be set
+	 */
+	void setTitle(string title) {
+		this->title = title;
+	}
+
+	/**
+	 * Returns the name of the author of the book
+	 * @return book author name
+	 */
+	string getAuthor() {
+		return this->author;
+	}
+
+	/**
+	 * Changes the name of the author of the book
+	 * @param author The new author name that is to be set
+	 */
+	void setAuthor(string author) {
+		this->author = author;
+	}
+
+	/**
+	 * Returns the name of the publisher of the book
+	 * @return book publisher
+	 */
+	string getPublisher() {
+		return publisher;
+	}
+
+	/**
+	 * Changes the name of the publisher of the book
+	 * @param publisher The new publisher name that is to be set
+	 */
+	void setPublisher(string publisher) {
+		this->publisher = publisher;
+	}
+
+	/**
+	 * Returns the current state of the book which is updated each time the function is called
+	 * @return state
+	 */
+	int getState() {
+		this->updateState();
+		return state;
+	}
+
+	/**
+	 * Changes the current state of the book
+	 * @param state The new state that is to be set
+	 */
+	void setState(int state) {
+		this->state = state;
+	}
+
+	/**
+	 * Returns the number of copies of the book
+	 * @return state
+	 */
+	unsigned int getCopies(){
+		return copies;
+	}
+
+	/**
+	 * Changes the number of copies of the book
+	 * @param publisher The new number of copies that is to be set
+	 */
+	void setCopies(int copies){
+		this->copies = copies;
+	}
+
+	void updateState() {
+		if(!claim_list.empty()) {
+			this->state = STATE_CLAIMED;
+		}
+		else {
+			if(issue_list.size() < this->copies) {
+				this->state = STATE_AVAILABLE;
+			}
+			else(issue_list.size() == this->copies) {
+				this->state = STATE_ISSUED;
+			}
 		}
 	}
-}
 
-unsigned int Book::getCopies(){
-	return copies;
-}
-
-
-void Boook::setCopies(int copies){
-	this->copies = copies;
+	void display() {
+		cout << book_id << " : " << title << endl;
+		cout << "Written by: " << author << endl;
+		cout << "Published by: " << publisher << endl;
+		cout << "Total number of copies: " << copies << endl;
+		switch (state) {
+			case STATE_AVAILABLE:
+				cout << (copies - issue_list.size()) " copies are available.";
+				if (issue_list.empty)
+					break;
+			case STATE_ISSUED:
+				list<Issue>::iterator it = this->issue_list.begin();
+				cout << "Users who have issued this book:" << endl;
+				while (it != this->issue_list.end()) {
+					it->display();
+				}
+				break;
+			case STATE_CLAIMED:
+				list<Issue>::iterator it = this->issue_list.begin();
+				cout << "Users who have issued this book:" << endl;
+				while (it != this->issue_list.end()) {
+					it->display();
+				}
+				list<Claim>::iterator it = this->claim_list.begin();
+				cout << "Users who have claimed this book:" << endl;
+				while (it != this->issue_list.end()) {
+					it->display();
+				}
+				break;
+		}
+	}
 }
