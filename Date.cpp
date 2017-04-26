@@ -117,4 +117,49 @@ class Date {
         new_date.validate();
         return new_date;
     }
+
+    bool operator==(Date d) {
+        if (year == d.year && month == d.month && date == d.date)
+            return true;
+        return false;
+    }
+
+    bool operator!=(Date d) {
+        if (*this == date)
+            return false;
+        return true;
+    }
+
+    bool operator>(Date d) {
+        if (year > d.year)
+            return true;
+        else if (year < d.year)
+            return false;
+        if (month > d.month)
+            return true;
+        else if (month < d.month)
+            return false;
+        if (date > d.date)
+            return true;
+        else
+            return false;
+    }
+
+    bool operator>=(Date d) {
+        if (*this == d || *this > d)
+            return true;
+        return false;
+    }
+
+    bool operator<(Date d) {
+        if (*this >= d)
+            return false;
+        return true;
+    }
+
+    bool operator<=(Date d) {
+        if (*this > d)
+            return false;
+        return true;
+    }
 }
