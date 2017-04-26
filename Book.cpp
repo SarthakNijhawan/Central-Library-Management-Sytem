@@ -2,7 +2,7 @@
 #include<queue>
 #include<string>
 
-class Book{
+class Book {
 	/**
      * Value of the {@link #state} field indicating
      * available.
@@ -30,8 +30,8 @@ class Book{
 	string author;
 	string publisher;
 
-	list<Issue> issue_ist;
-	queue<Claim> claim_list;
+	list<Issue> issue_list;
+	list<Claim> claim_list;
 
 public:
 	/**
@@ -185,12 +185,39 @@ public:
 				this->state = STATE_AVAILABLE;
 			}
 			else(issue_list.size() == this->copies) {
-
+				this->state = STATE_ISSUED;
 			}
 		}
 	}
 
-	void displayInfo() {
-		//TODO
+	void display() {
+		cout << book_id << " : " << title << endl;
+		cout << "Written by: " << author << endl;
+		cout << "Published by: " << publisher << endl;
+		switch (state) {
+			case STATE_AVAILABLE:
+				cout << (copies - issue_list.size()) " copies are available.";
+				if (issue_list.empty)
+					break;
+			case STATE_ISSUED:
+				list<Issue>::iterator it = this->issue_list.begin();
+				cout << "Users who have issued this book:";
+				while (it != this->issue_list.end()) {
+					it->display();
+				}
+				break;
+			case STATE_CLAIMED:
+				list<Issue>::iterator it = this->issue_list.begin();
+				cout << "Users who have issued this book:";
+				while (it != this->issue_list.end()) {
+					it->display();
+				}
+				list<Claim>::iterator it = this->claim_list.begin();
+				cout << "Users who have claimed this book:";
+				while (it != this->issue_list.end()) {
+					it->display();
+				}
+				break;
+		}
 	}
 }

@@ -32,7 +32,7 @@ public:
     void returnBook(Book* book);
     void issueClaimedBook(Book* book);
     void updateFine();
-    void displayInfo();
+    void display();
 
 };
 
@@ -163,17 +163,13 @@ void User::issueBook(Book* book) {
     }
 }
 
-void User::reIssueBook() {
-
-}
-
 void User::claimBook(Book* book) {
     if(book->getState() != 1) {
         Claim claim_book(Date.get_instance(), *book, *this);
         this->claimed_books_list.push_back(claim_book);
         book->claim_list.push_back(claim_book);
     }
-    else cout << "Sorry the book's available, your request was dismissed."<<endl;
+    else cout << "Sorry the book is available, your request was dismissed."<<endl;
 }
 
 void User::returnBook(Book* book) {
@@ -191,25 +187,22 @@ void User::returnBook(Book* book) {
     while(it != book->issue_list.end()) {
 
     }
-
-
 }
 
-void User::displayInfo() {
+void User::display() {
     cout << this->roll_number << " : " << this->name << endl;
     cout<< "Overdue fine "<< this->fine << endl;
     cout<< "Issued books are : " << endl;
 
     list<Issue>::iterator it = this->issued_books_list.begin();
     while (it != this->issued_books_list.end()) {
-        it->displayInfo();
+        it->display();
     }
 
     cout<<"Claimed Books are : "
 
     list<Claim>::iterator it = this->claimed_books_list.begin();
     while (it != this->claimed_books_list.end()) {
-        it->displayInfo();
+        it->display();
     }
-
 }
