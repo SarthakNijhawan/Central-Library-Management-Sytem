@@ -3,7 +3,7 @@
 class Issue {
     Date issue_date;
     Date due_date;
-    float fine = 0;
+    float fine;
     Book book;
     User user;
 
@@ -16,9 +16,10 @@ public:
         this->user = NULL;
     }
 
-    Issue(Date issue_date, Book book, User user) {
+    Issue(Date issue_date, Date due_date, float fine, Book book, User user) {
         this->issue_date = issue_date;
-        this->due_date = issue_date + Date(0, 1, 0);
+        this->due_date = due_date;
+        this->fine = fine;
         this->book = book;
         this->user = user;
     }
@@ -48,6 +49,7 @@ public:
     }
 
     float getFine() {
+        generateFine();
         return fine;
     }
 
@@ -69,5 +71,12 @@ public:
 
     void setUser(User user) {
         this->user = user;
+    }
+
+    void generateFine() {
+        Date current_date = Date.getInstance();
+        if (current_date <= due_date)
+            return;
+        fine = (current_date - due_date)*5;
     }
 }
