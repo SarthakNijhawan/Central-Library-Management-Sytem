@@ -105,17 +105,28 @@ class Date {
     }
 
     Date operator+(unsigned int days) {
-        Date new_date = new Date(*this);
+        Date new_date(*this);
         new_date.date += days;
         new_date.validate();
         return new_date;
     }
 
     Date operator-(unsigned int days) {
-        Date new_date = new Date(*this);
+        Date new_date(*this);
         new_date.date -= days;
         new_date.validate();
         return new_date;
+    }
+
+    int operator-(Date d2) {
+        Date d1(*this);
+        if (d1 < d2)
+            return -1 * (d2 - d1);
+        if (d1.year == d2.year && d1.month == d2.month)
+            return d1.date - d2.date;
+        int previous_month = d1.month == 1 ? 12 : d1.month - 1;
+        int numDays = getDaysInMonth(previous_month, d1.year);
+        return numDays + ((d1 - numDays) - d2);
     }
 
     bool operator==(Date d) {

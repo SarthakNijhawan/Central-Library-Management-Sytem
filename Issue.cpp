@@ -79,4 +79,15 @@ public:
             return;
         fine = (current_date - due_date)*5;
     }
+
+    void display() {
+        cout << book.getTitle() << " issued by " << user.getName();
+        if (issue_date != NULL) {
+            cout << "Issue Date: " << issue_date;
+        }
+        if (due_date != NULL) {
+            cout << "Due Date: " << due_date;
+        }
+        cout << "Fine: " << fine << " INR";
+    }
 }

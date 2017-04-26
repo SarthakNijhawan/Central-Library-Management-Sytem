@@ -30,8 +30,8 @@ class Book{
 	string author;
 	string publisher;
 
-	list<Issue> issue_ist;
-	queue<Claim> claim_list;
+	list<Issue> issue_list;
+	list<Claim> claim_list;
 
 public:
 	/**
