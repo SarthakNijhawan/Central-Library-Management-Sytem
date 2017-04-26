@@ -1,30 +1,38 @@
 #include "User.h"
+#include<string.h>
+#include<Issue.h>
+#include<Claim.h>
+#include<Book>
+#include<Date>
 
 class User{
-  private:
+private:
     string name;
     unsigned int roll_number;
-    unsigned int fine;
-    unsigned int number_of_books_issued;
-    list<Book> books_issued = NULL;
-    void issueAvailableBook(Book book);
+    float fine;
+    list<Issue> issued_books_list;
+    list<Claim> claimed_books_list;
 
-  public:
+public:
     User();
+    User(string name, unsigned int roll_number, float fine = 0);
+    User(string name, unsigned int roll_number, float fine = 0,
+        list<Issue> issued_books, list<Claim> claimed_books);
+
     string getName();
     void setName(string name);
+    float getFine();
+    void setFine(float fine);
     unsigned int getRollNumber();
     void setRollNumber(unsigned int roll_number);
-    unsigned int getFine();
-    void setFine(unsigned int fine);
-    unsigned int getNumberOfBooksIssued();
-    void setNumberOfBooksIssued(unsigned int number_of_books_issued);
-    bool issueBook(Book book);
-    bool search_book(Book book);
-    bool claim_book(Book book);
-    bool return_book();
-    void display_info();
-    bool update_info();
+
+    void issueBook(Book* book);
+    void reIssueBook(Book* book);
+    void claimBook(Book* book);
+    void returnBook(Book* book);
+    void issueClaimedBook(Book* book);
+    void updateFine();
+    void displayInfo();
 
 };
 
@@ -35,8 +43,6 @@ User::User() {
     this->name = "";
     this->roll_number = 0;
     this->fine = 0;
-    this->number_of_books_issued = 0;
-    this->books_issued = NULL;
 }
 
 /**
@@ -47,16 +53,20 @@ User::User() {
  * @param number_of_books_issued Number of books issued by the user
  * @param books_issued Pointer to the array of pointers to the books issued by the user
  */
-User::User(string name, unsigned int roll_number, unsigned int fine, unsigned int number_of_books_issued, Book* books_issued) {
+User::User(string name, unsigned int roll_number, float fine = 0) {
     this->name = name;
     this->roll_number = roll_number;
     this->fine = fine;
-    this->number_of_books_issued = number_of_books_issued;
-    /**
-     * TODO: FacAd, pointers wala kaam, initialize the books_issued array.
-     * -UnstableBrainiac
-     */
-}
+
+  }
+
+User::User(string name, unsigned int roll_number, float fine = 0, list<Issue> issued_books, list<Claim> claimed_books) {
+    this->name = name;
+    this->roll_number = roll_number;
+    this->fine = fine;
+    this->issued_books_list = issued_books;
+    this->claimed_books_list = claimed_books;
+  }
 
 /**
  * Returns the name of the user
@@ -94,7 +104,8 @@ void User::setRollNumber(unsigned int roll_number) {
  * Returns the fine amount due against the user
  * @return user fine amount due
  */
-unsigned int User::getFine() {
+unsigned float User::getFine() {
+    updateFine();
     return this->fine;
 }
 
@@ -102,54 +113,103 @@ unsigned int User::getFine() {
  * Changes the fine against the user
  * @param name The new fine amount that is to be set
  */
-void User::setFine(unsigned int fine) {
+
+void User::setFine(float fine) {
     this->fine = fine;
 }
 
-/**
- * Returns the number of books issued by the user
- * @return number of books issued by the user
- */
-unsigned int User::getNumberOfBooksIssued() {
-    return this->number_of_books_issued;
-}
+/*
+Updates the total fine on a user
+*/
+void updateFine() {
+    list<Issue>::iterator it = issued_books_list.begin();
 
-/**
- * Changes the number of books issued by the user
- * @param name The new number of books that is to be set
- */
-void User::setNumberOfBooksIssued(unsigned int number_of_books_issued) {
-    this->number_of_books_issued = number_of_books_issued;
-}
-
-/**
- * TODO:   FacAd, pointers wala kaam, add getter/setter for books_issued
- * -UnstableBrainiac
- */
-
-/**
- * Private method to be called after checking availability of book
- * @param book The book that is to be issued
- */
-void User::issueAvailableBook(Book book) {
-    /**
-     * TODO: FacAd, Add to pointer array and everything
-     * - UnstableBrainiac
-     */
-}
-
-/**
- * Public method to issue a book if it is available
- * @param book The book that is to be issued
- * @return <code>true</code> if the book was successfully issued;
- * <code>false</code> otherwise.
- */
-bool User::issueBook(Book book) {
-    int state = book.getState();
-    if (state == Book.STATE_AVAILABLE) {
-        issueAvailableBook(book);
-        return true;
-    } else {
-        return false;
+    while(it != issued_books_list.end()) {
+        fine += it->getFine();
     }
+}
+
+/*
+Checks if the book is available and appends an issue object it into the list of Users and the book itself
+Else asks for a claim to be done on the very same book
+Note : doesnot issue any claimed books into consideration
+*/
+
+void User::issueBook(Book* book) {
+    if (book->getState() == 1) {
+        Issue book_issue(Date.get_instance(), (*book), (*this));
+        this->issued_books_list.push_back(book_issue);
+        book->issue_list.push_back(book_issue);
+
+    }
+    else {
+        cout<<"Sorry but the book's already been issued by someone else."<<endl;
+
+        while(1) {
+
+            cout<<"Do you wish to rather claim the book? y/n"<<endl;
+            int answer;
+            cin >> answer;
+            if(answer == 'y' || answer == 'Y') {
+                this->claimBook(book);
+                break;
+            }
+            else if (answer == 'n' || answer == 'N') {
+                break;
+            }
+            else cout << "Please renter your answer to the following question." << endl;
+
+        }
+    }
+}
+
+void User::reIssueBook() {
+
+}
+
+void User::claimBook(Book* book) {
+    if(book->getState() != 1) {
+        Claim claim_book(Date.get_instance(), *book, *this);
+        this->claimed_books_list.push_back(claim_book);
+        book->claim_list.push_back(claim_book);
+    }
+    else cout << "Sorry the book's available, your request was dismissed."<<endl;
+}
+
+void User::returnBook(Book* book) {
+    list<Issue>::iterator it = this->issued_books_list.begin();
+
+    while(it != this->issued_books_list.end()) {
+        if(it->book == book){
+            this->issued_books_list.erase(it);
+            break;
+        }
+    }
+
+    list<Issue>::iterator it = book->issue_list.begin();
+
+    while(it != book->issue_list.end()) {
+
+    }
+
+
+}
+
+void User::displayInfo() {
+    cout << this->roll_number << " : " << this->name << endl;
+    cout<< "Overdue fine "<< this->fine << endl;
+    cout<< "Issued books are : " << endl;
+
+    list<Issue>::iterator it = this->issued_books_list.begin();
+    while (it != this->issued_books_list.end()) {
+        it->displayInfo();
+    }
+
+    cout<<"Claimed Books are : "
+
+    list<Claim>::iterator it = this->claimed_books_list.begin();
+    while (it != this->claimed_books_list.end()) {
+        it->displayInfo();
+    }
+
 }
